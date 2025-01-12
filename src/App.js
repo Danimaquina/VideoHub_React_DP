@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+// src/components/FirestoreExample.js
+import React, { useEffect, useState } from 'react';
+import { db } from './firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
-function App() {
+
+const FirestoreExample = () => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const querySnapshot = await getDocs(collection(db, 'videos'));
+      const data = querySnapshot.docs.map(doc => doc.data());
+      setItems(data);
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Items desde Firestore</h2>
+      <ul>
+        {items.map((videos, index) => (
+          <li key={index}>{videos.titulo}</li>
+        ))}
+      </ul>
     </div>
   );
-}
+};
 
-export default App;
+export default FirestoreExample;

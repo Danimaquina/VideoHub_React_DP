@@ -1,0 +1,76 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #00910e;
+    height: 100vh;
+    color: white;
+  }
+  
+  .header {
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    font-size: 36px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .hub {
+    color: #00910e;
+    background-color: white;
+    border-radius: 5px;
+    padding: 0 5px;
+  }
+  
+  .formContainer {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid black;
+    width: 80%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .input {
+    height: 40px;
+    width: 100%; /* Asegura que el input ocupe todo el ancho disponible */
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 0 10px;
+    box-sizing: border-box; /* Esto hace que el padding y el border no aumenten el tamaño total del input */
+  }
+  
+  .enterButton {
+    background-color: #00910e;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .enterButton:hover {
+    background-color: #006f0b;
+  }
+  
+  .toggleButton {
+    margin-top: 15px;
+    color: white;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .toggleButton:hover {
+    color: #a3d9a5;
+  }
+  

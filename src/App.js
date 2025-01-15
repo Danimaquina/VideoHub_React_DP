@@ -1,31 +1,28 @@
-// src/components/FirestoreExample.js
-import React, { useEffect, useState } from 'react';
-import { db } from './firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
-const FirestoreExample = () => {
-  const [items, setItems] = useState([]);
+// Importación de componentes
+import Favoritos from './Pages/Favoritos';
+import Listas from './Pages/Listas';
+import SubirVideo from './Pages/SubirVideo';
+import Register from './Pages/Register'; // Pantalla de Registro
+import Login from './Pages/Login'; // Pantalla de Login
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'videos'));
-      const data = querySnapshot.docs.map(doc => doc.data());
-      setItems(data);
-    };
-    fetchData();
-  }, []);
 
+
+
+export default function App() {
   return (
-    <div>
-      <h2>Items desde Firestore</h2>
-      <ul>
-        {items.map((videos, index) => (
-          <li key={index}>{videos.titulo}</li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Routes>
+        {/* Definición de rutas */}
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/favoritos" element={<Favoritos />} />
+        <Route path="/listas" element={<Listas />} />
+        <Route path="/subirVideo" element={<SubirVideo />} />
+      </Routes>
+    </Router>
   );
-};
-
-export default FirestoreExample;
+}

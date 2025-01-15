@@ -1,0 +1,93 @@
+.cell-container {
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .thumbnail {
+    height: 200px;
+    width: 100%;
+  }
+  
+  .thumbnail-button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+  }
+  
+  .details-container {
+    padding: 10px;
+  }
+  
+  .title-input {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom-width: 1px;
+    border-bottom-color: #ccc;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+  }
+  
+  .date-text {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+  }
+  
+  .modal-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+  }
+  
+  .close-button {
+    background-color: #ff3b30;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    border: none;
+  }
+  
+  .open-in-browser-text {
+    color: #fff;
+    font-size: 16px;
+    text-decoration-line: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .error-container {
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8d7da;
+  }
+  
+  .error-text {
+    color: #721c24;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .watched-button {
+    background-color: #00910e;
+    padding: 8px 20px;
+    border-radius: 20px;
+    margin-top: 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .watched-button.watched-active {
+    background-color: #ff3b30;
+  }
+  

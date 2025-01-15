@@ -1,54 +1,46 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Usamos Link y useNavigate
-import { FaHeart, FaUpload, FaList, FaSignOutAlt } from 'react-icons/fa'; // Iconos
-import { useLocation } from 'react-router-dom'; // Para saber cuál es la página activa
-import './Sidebar.css'; // Asegúrate de tener este archivo CSS
+import { Link, useNavigate } from 'react-router-dom';
+import { FaHeart, FaUpload, FaList, FaSignOutAlt } from 'react-icons/fa';
+import './Sidebar.css';
 
 const Sidebar = () => {
-  const location = useLocation(); // Hook para obtener la ruta actual
-  const navigate = useNavigate(); // Hook para la redirección
-  const [showConfirmLogout, setShowConfirmLogout] = useState(false); // Estado para el modal de confirmación
+  const [showConfirmLogout, setShowConfirmLogout] = useState(false);
+  const navigate = useNavigate();
 
-  // Función para manejar el clic en el botón de Log Out
   const handleLogoutClick = () => {
-    setShowConfirmLogout(true); // Mostrar el modal de confirmación
+    setShowConfirmLogout(true); // Mostrar el modal
   };
 
-  // Función para confirmar el log out
   const handleConfirmLogout = () => {
     setShowConfirmLogout(false); // Ocultar el modal
-    navigate('/'); // Redirigir al login
+    navigate('/'); // Redirigir a la página de inicio de sesión
   };
 
-  // Función para cancelar el log out
   const handleCancelLogout = () => {
-    setShowConfirmLogout(false); // Solo cerrar el modal
+    setShowConfirmLogout(false); // Ocultar el modal
   };
 
   return (
-    <div className="container">
-      <div className="sidebar">
-        <Link to="/favoritos" className={`menuItem ${location.pathname === '/favoritos' ? 'active' : ''}`}>
-          <FaHeart size={24} />
-          <span>Favoritos</span>
-        </Link>
-        
-        <Link to="/subirVideo" className={`menuItem ${location.pathname === '/subirVideo' ? 'active' : ''}`}>
-          <FaUpload size={24} />
-          <span>Subir Video</span>
-        </Link>
-        
-        <Link to="/listas" className={`menuItem ${location.pathname === '/listas' ? 'active' : ''}`}>
-          <FaList size={24} />
-          <span>Listas</span>
-        </Link>
+    <div className="sidebar">
+      <Link to="/favoritos" className="menuItem">
+        <FaHeart size={24} />
+        <span>Favoritos</span>
+      </Link>
+      
+      <Link to="/subirVideo" className="menuItem">
+        <FaUpload size={24} />
+        <span>Subir Video</span>
+      </Link>
+      
+      <Link to="/listas" className="menuItem">
+        <FaList size={24} />
+        <span>Listas</span>
+      </Link>
 
-        {/* El botón de Log Out, que muestra el modal */}
-        <button className={`menuItem ${location.pathname === '/logOut' ? 'active' : ''}`} onClick={handleLogoutClick}>
-          <FaSignOutAlt size={24} />
-          <span>Log Out</span>
-        </button>
-      </div>
+      <button className="menuItem logoutButton" onClick={handleLogoutClick}>
+        <FaSignOutAlt size={24} />
+        <span>Log Out</span>
+      </button>
 
       {/* Modal de confirmación */}
       {showConfirmLogout && (
@@ -62,10 +54,6 @@ const Sidebar = () => {
           </div>
         </div>
       )}
-
-      <div className="content">
-        <h2>Página activa: {location.pathname.split('/').pop()}</h2>
-      </div>
     </div>
   );
 };

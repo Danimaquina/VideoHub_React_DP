@@ -64,6 +64,22 @@ const Favoritos = () => {
     }
   };
 
+  const renderVideoCell = (video) => {
+    const commonProps = {
+      enlace: video.enlace,
+      titulo: video.titulo,
+      visto: video.visto,
+      fechaCreacion: video.fechaCreacion,
+      onToggleWatched: () => handleToggleWatched(video.id)
+    };
+
+    return video.tipo === 'YouTube' ? (
+      <YouTubeCell {...commonProps} />
+    ) : (
+      <InstagramCell {...commonProps} />
+    );
+  };
+
   return (
     <div className="container">
       <div className="filtros-container" style={styles.filtrosContainer}>
@@ -102,21 +118,7 @@ const Favoritos = () => {
       <div className="videos-grid" style={styles.videosGrid}>
         {videosFiltrados.map((video) => (
           <div key={video.id}>
-            {video.tipo === 'youtube' ? (
-              <YouTubeCell
-                videoUrl={video.enlace}
-                initialTitle={video.titulo}
-                fechaCreacion={video.fechaCreacion}
-                onToggleWatched={() => handleToggleWatched(video.id)}
-              />
-            ) : (
-              <InstagramCell
-                videoUrl={video.enlace}
-                initialTitle={video.titulo}
-                fechaCreacion={video.fechaCreacion}
-                onToggleWatched={() => handleToggleWatched(video.id)}
-              />
-            )}
+            {renderVideoCell(video)}
           </div>
         ))}
       </div>
@@ -153,7 +155,7 @@ const styles = {
     gap: '20px',
     padding: '20px',
     maxWidth: '1400px',
-    margin: '100px 100px 350px 10px',
+    margin: '100px 100px 350px 50px',
   }
 };
 

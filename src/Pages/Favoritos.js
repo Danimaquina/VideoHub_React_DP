@@ -1,33 +1,160 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
-import Sidebar from '../componentes/Sidebar';
+import { db, auth } from '../firebase';
+import { collection, getDocs, query, where, doc, updateDoc } from 'firebase/firestore';
+import YouTubeCell from '../componentes/YouTubeCell';
+import InstagramCell from '../componentes/InstagramCell';
 
 const Favoritos = () => {
-  const [items, setItems] = useState([]);
+  const [videos, setVideos] = useState([]);
+  const [filtro, setFiltro] = useState('todos'); // 'todos', 'vistos', 'noVistos'
 
   useEffect(() => {
-    const fetchData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'videos'));
-      const data = querySnapshot.docs.map(doc => doc.data());
-      setItems(data);
+    const fetchVideos = async () => {
+      if (auth.currentUser) {
+        const q = query(
+          collection(db, 'videos'),
+          where('usuario', '==', auth.currentUser.uid)
+        );
+        
+        const querySnapshot = await getDocs(q);
+        const videosData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setVideos(videosData);
+      }
     };
-    fetchData();
+    
+    fetchVideos();
   }, []);
+
+  const videosFiltrados = videos.filter(video => {
+    switch (filtro) {
+      case 'vistos':
+        return video.visto === true;
+      case 'noVistos':
+        return video.visto === false;
+      default:
+        return true;
+    }
+  });
+
+  const handleToggleWatched = async (videoId) => {
+    try {
+      // Encontrar el video actual en el estado
+      const videoActual = videos.find(v => v.id === videoId);
+      
+      // Referencia al documento en Firestore
+      const videoRef = doc(db, 'videos', videoId);
+      
+      // Actualizar en Firestore
+      await updateDoc(videoRef, {
+        visto: !videoActual.visto
+      });
+
+      // Actualizar el estado local
+      setVideos(videos.map(video => 
+        video.id === videoId 
+          ? { ...video, visto: !video.visto }
+          : video
+      ));
+    } catch (error) {
+      console.error('Error al actualizar el estado del video:', error);
+      alert('Error al actualizar el estado del video. Por favor, inténtalo de nuevo.');
+    }
+  };
 
   return (
     <div className="container">
-      <Sidebar />
-      <div className="mainContent">
-        <h2>Items desde Firestore</h2>
-        <ul>
-          {items.map((video, index) => (
-            <li key={index}>{video.titulo}</li>
-          ))}
-        </ul>
+      <div className="filtros-container" style={styles.filtrosContainer}>
+        <button 
+          onClick={() => setFiltro('todos')}
+          style={{
+            ...styles.filtroBoton,
+            backgroundColor: filtro === 'todos' ? '#00910e' : 'white',
+            color: filtro === 'todos' ? 'white' : 'black'
+          }}
+        >
+          Todos
+        </button>
+        <button 
+          onClick={() => setFiltro('vistos')}
+          style={{
+            ...styles.filtroBoton,
+            backgroundColor: filtro === 'vistos' ? '#00910e' : 'white',
+            color: filtro === 'vistos' ? 'white' : 'black'
+          }}
+        >
+          Vistos
+        </button>
+        <button 
+          onClick={() => setFiltro('noVistos')}
+          style={{
+            ...styles.filtroBoton,
+            backgroundColor: filtro === 'noVistos' ? '#00910e' : 'white',
+            color: filtro === 'noVistos' ? 'white' : 'black'
+          }}
+        >
+          No Vistos
+        </button>
+      </div>
+
+      <div className="videos-grid" style={styles.videosGrid}>
+        {videosFiltrados.map((video) => (
+          <div key={video.id}>
+            {video.tipo === 'youtube' ? (
+              <YouTubeCell
+                videoUrl={video.enlace}
+                initialTitle={video.titulo}
+                fechaCreacion={video.fechaCreacion}
+                onToggleWatched={() => handleToggleWatched(video.id)}
+              />
+            ) : (
+              <InstagramCell
+                videoUrl={video.enlace}
+                initialTitle={video.titulo}
+                fechaCreacion={video.fechaCreacion}
+                onToggleWatched={() => handleToggleWatched(video.id)}
+              />
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
+};
+
+const styles = {
+  filtrosContainer: {
+    display: 'flex',
+    gap: '10px',
+    position: 'absolute',
+    top: '25px',
+    left: '725px',
+    right: '0',
+    zIndex: 100,
+    padding: '10px',
+  },
+  filtroBoton: {
+    padding: '10px 20px',
+    border: 'none',
+    borderRadius: '5px',
+    backgroundColor: 'white',
+    color: 'black',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+    border: '2px solid black',
+
+  },
+  videosGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '20px',
+    padding: '20px',
+    maxWidth: '1400px',
+    margin: '100px 100px 350px 10px',
+  }
 };
 
 export default Favoritos;

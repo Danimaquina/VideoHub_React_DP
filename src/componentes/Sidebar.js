@@ -1,48 +1,52 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaHeart, FaUpload, FaList, FaSignOutAlt } from 'react-icons/fa';
 import './Sidebar.css';
 
 const Sidebar = () => {
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogoutClick = () => {
-    setShowConfirmLogout(true); // Mostrar el modal
+    setShowConfirmLogout(true);
   };
 
   const handleConfirmLogout = () => {
-    setShowConfirmLogout(false); // Ocultar el modal
-    navigate('/'); // Redirigir a la página de inicio de sesión
+    setShowConfirmLogout(false);
+    navigate('/');
   };
 
   const handleCancelLogout = () => {
-    setShowConfirmLogout(false); // Ocultar el modal
+    setShowConfirmLogout(false);
+  };
+
+  const isActive = (path) => {
+    return location.pathname === path ? 'menuItem active' : 'menuItem';
   };
 
   return (
     <div className="sidebar">
-      <Link to="/favoritos" className="menuItem">
-        <FaHeart size={24} />
+      <Link to="/favoritos" className={isActive('/favoritos')}>
+        <FaHeart size={20} />
         <span>Favoritos</span>
       </Link>
       
-      <Link to="/subirVideo" className="menuItem">
-        <FaUpload size={24} />
+      <Link to="/subirVideo" className={isActive('/subirVideo')}>
+        <FaUpload size={20} />
         <span>Subir Video</span>
       </Link>
       
-      <Link to="/listas" className="menuItem">
-        <FaList size={24} />
+      <Link to="/listas" className={isActive('/listas')}>
+        <FaList size={20} />
         <span>Listas</span>
       </Link>
 
       <button className="menuItem logoutButton" onClick={handleLogoutClick}>
-        <FaSignOutAlt size={24} />
-        <span>Log Out</span>
+        <FaSignOutAlt size={20} />
+        <span>Cerrar Sesión</span>
       </button>
 
-      {/* Modal de confirmación */}
       {showConfirmLogout && (
         <div className="logoutModal">
           <div className="modalContent">

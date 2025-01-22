@@ -1,4 +1,68 @@
-/* Fondo oscuro translúcido */
+.sidebar {
+  width: 250px;
+  height: 100vh;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin: 4px 0;
+  color: #333;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.menuItem:hover {
+  background-color: #f0f0f0;
+  transform: translateX(5px);
+}
+
+.menuItem.active {
+  background-color: #f0f0f0;
+  color: #2563eb;
+}
+
+.menuItem svg {
+  margin-right: 12px;
+  color: #666;
+}
+
+.menuItem:hover svg {
+  color: #2563eb;
+}
+
+.menuItem span {
+  font-size: 16px;
+}
+
+.logoutButton {
+  margin-top: auto;
+  margin-bottom: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.logoutButton:hover {
+  background-color: #fee2e2;
+}
+
+/* Mantenemos los estilos del modal pero los mejoramos */
 .logoutModal {
   position: fixed;
   top: 0;
@@ -12,47 +76,52 @@
   z-index: 1000;
 }
 
-/* Contenedor del modal */
 .modalContent {
-  background-color: #fff;
-  border-radius: 8px;
-  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 24px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  min-width: 300px;
 }
 
-/* Botones */
+.modalContent h3 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
 .modalButtons {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .cancelButton, .confirmButton {
-  padding: 10px 20px;
+  padding: 10px 24px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
 .cancelButton {
-  background-color: #ddd;
-  color: #333;
+  background-color: #f3f4f6;
+  color: #4b5563;
 }
 
 .cancelButton:hover {
-  background-color: #bbb;
+  background-color: #e5e7eb;
 }
 
 .confirmButton {
-  background-color: #d9534f;
+  background-color: #dc2626;
   color: white;
 }
 
 .confirmButton:hover {
-  background-color: #c9302c;
+  background-color: #b91c1c;
 }
 
 /* Animación de entrada */

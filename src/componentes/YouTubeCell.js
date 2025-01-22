@@ -13,15 +13,14 @@ const YouTubeCell = ({ videoUrl, initialTitle = "", onToggleWatched, fechaCreaci
   };
 
   const getVideoId = (url) => {
-    const regExp =
-      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|\?v=|.*[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     const match = url.match(regExp);
-    return match ? match[1] : null;
+    return match && match[7].length === 11 ? match[7] : null;
   };
 
   const fetchThumbnail = (videoId) => {
     if (videoId) {
-      const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg;`
+      const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
       setThumbnail(thumbnailUrl);
       setError(false);
     } else {
@@ -61,14 +60,8 @@ const YouTubeCell = ({ videoUrl, initialTitle = "", onToggleWatched, fechaCreaci
       )}
 
       <div className="details-container">
-        <input
-          className="title-input"
-          placeholder="Escribe un título..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
+        <p className="title-text">{title}</p>
 
-        {/* Mostrar la fecha de creación */}
         <p className="date-text">Fecha de creación: {formattedDate}</p>
 
         <button
@@ -84,21 +77,23 @@ const YouTubeCell = ({ videoUrl, initialTitle = "", onToggleWatched, fechaCreaci
 
       {isPlaying && (
         <div className="modal-background">
-          <iframe
-            title="youtube-video"
-            width="100%"
-            height="300"
-            src={`https://www.youtube.com/embed/${getVideoId(videoUrl)}?autoplay=1`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-          <button
-            className="close-button"
-            onClick={() => setIsPlaying(false)}
-          >
-            Cerrar
-          </button>
+          <div className="modal-content">
+            <iframe
+              title="youtube-video"
+              width="100%"
+              height="500"
+              src={`https://www.youtube.com/embed/${getVideoId(videoUrl)}?autoplay=1`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            <button
+              className="close-button"
+              onClick={() => setIsPlaying(false)}
+            >
+              Cerrar
+            </button>
+          </div>
         </div>
       )}
     </div>

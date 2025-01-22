@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap'; // Usamos react-bootstrap para el modal
 import moment from 'moment'; // Para manejar y formatear fechas
-import { useHistory } from 'react-router-dom'; // Para redirigir al navegador
+import { useNavigate } from 'react-router-dom'; // Cambiado de useHistory a useNavigate
 import './InstagramCell.css'; // Importamos el archivo CSS para los estilos
 
 const InstagramCell = ({ videoUrl, initialTitle = '', onToggleWatched, fechaCreacion }) => {
@@ -9,7 +9,7 @@ const InstagramCell = ({ videoUrl, initialTitle = '', onToggleWatched, fechaCrea
   const [title, setTitle] = useState(initialTitle);
   const [error, setError] = useState(false);
   const [isWatched, setIsWatched] = useState(false);
-  const history = useHistory(); // Usamos react-router-dom para navegar
+  const navigate = useNavigate(); // Cambiado de useHistory a useNavigate
 
   const toggleWatched = () => {
     setIsWatched((prevState) => !prevState); // Alternar el estado de visto
@@ -40,7 +40,7 @@ const InstagramCell = ({ videoUrl, initialTitle = '', onToggleWatched, fechaCrea
   }, [videoUrl]);
 
   const openVideoInBrowser = () => {
-    history.push(normalizeUrl(videoUrl)); // Redirigimos al navegador con react-router-dom
+    window.open(normalizeUrl(videoUrl), '_blank'); // Cambiado para abrir en nueva pestaña
     setIsVideoVisible(false);
   };
 
@@ -51,7 +51,7 @@ const InstagramCell = ({ videoUrl, initialTitle = '', onToggleWatched, fechaCrea
     <div className="cell-container">
       {error ? (
         <div className="error-container">
-          <Text className="error-text">Error: URL no válida</Text>
+          <p className="error-text">Error: URL no válida</p>
         </div>
       ) : (
         <button onClick={() => setIsVideoVisible(true)} className="thumbnail-button">
@@ -64,14 +64,8 @@ const InstagramCell = ({ videoUrl, initialTitle = '', onToggleWatched, fechaCrea
       )}
 
       <div className="details-container">
-        <input
-          type="text"
-          className="title-input"
-          placeholder="Escribe un título..."
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <Text className="date-text">Fecha de creación: {formattedDate}</Text>
+        <p className="title-text">{title}</p>
+        <p className="date-text">Fecha de creación: {formattedDate}</p>
 
         <button
           className={`watched-button ${isWatched ? 'watched-active' : ''}`}

@@ -9,6 +9,10 @@ const YouTubeCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }) 
   const [error, setError] = useState(false);
   const [isWatched, setIsWatched] = useState(visto);
 
+  useEffect(() => {
+    setIsWatched(visto);
+  }, [visto]);
+
   const getVideoId = (url) => {
     if (!url) return null;
     
@@ -84,6 +88,7 @@ const YouTubeCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }) 
           <button
             className={`watched-button ${isWatched ? "watched-active" : ""}`}
             onClick={() => {
+              setIsWatched(!isWatched);
               onToggleWatched();
             }}
           >

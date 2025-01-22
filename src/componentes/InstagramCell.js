@@ -7,8 +7,13 @@ import './InstagramCell.css'; // Importamos el archivo CSS para los estilos
 const InstagramCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }) => {
   const [isVideoVisible, setIsVideoVisible] = useState(false);
   const [error, setError] = useState(false);
-  const [isWatched, setIsWatched] = useState(visto); // Inicializar con el valor de visto
+  const [isWatched, setIsWatched] = useState(visto);
   const navigate = useNavigate(); // Cambiado de useHistory a useNavigate
+
+  // Actualizar isWatched cuando cambia la prop visto
+  useEffect(() => {
+    setIsWatched(visto);
+  }, [visto]);
 
   const toggleWatched = () => {
     setIsWatched(prevState => !prevState);
@@ -57,7 +62,8 @@ const InstagramCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }
         <button
           className={`watched-button ${isWatched ? 'watched-active' : ''}`}
           onClick={() => {
-            onToggleWatched();
+            setIsWatched(!isWatched); // Actualizar estado local inmediatamente
+            onToggleWatched(); // Llamar a la función del padre
           }}
         >
           {isWatched ? 'Visto' : 'Marcar como Visto'}

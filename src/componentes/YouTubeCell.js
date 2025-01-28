@@ -3,7 +3,7 @@ import moment from "moment";
 import YouTube from "react-youtube";
 import './YouTubeCell.css';
 
-const YouTubeCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }) => {
+const YouTubeCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion, showRemoveButton, onRemove }) => {
   const [thumbnail, setThumbnail] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [error, setError] = useState(false);
@@ -85,15 +85,28 @@ const YouTubeCell = ({ enlace, titulo, visto, onToggleWatched, fechaCreacion }) 
         <div className="details-container">
           <p className="title-text">{titulo || 'Sin título'}</p>
           <p className="date-text">Fecha de creación: {moment(fechaCreacion?.toDate()).format('DD/MM/YYYY')}</p>
-          <button
-            className={`watched-button ${isWatched ? "watched-active" : ""}`}
-            onClick={() => {
-              setIsWatched(!isWatched);
-              onToggleWatched();
-            }}
-          >
-            {isWatched ? 'Visto' : 'Marcar como Visto'}
-          </button>
+          <div className="buttons-container">
+            <button
+              className={`watched-button ${isWatched ? "watched-active" : ""}`}
+              onClick={() => {
+                setIsWatched(!isWatched);
+                onToggleWatched();
+              }}
+            >
+              {isWatched ? 'Visto' : 'Marcar como Visto'}
+            </button>
+            {showRemoveButton && (
+              <button
+                className="remove-button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRemove();
+                }}
+              >
+                Eliminar de la lista
+              </button>
+            )}
+          </div>
         </div>
       </div>
 

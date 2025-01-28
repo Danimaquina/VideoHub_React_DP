@@ -134,7 +134,7 @@ const styles = {
     top: '25px',
     left: '725px',
     right: '0',
-    zIndex: 100,
+    zIndex: 1,
     padding: '10px',
   },
   filtroBoton: {

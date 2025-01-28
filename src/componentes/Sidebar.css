@@ -73,7 +73,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 100;
 }
 
 .modalContent {
@@ -83,6 +83,8 @@
   text-align: center;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   min-width: 300px;
+  position: relative;
+  z-index: 1000000;
 }
 
 .modalContent h3 {
@@ -134,4 +136,9 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Añadimos una nueva clase para ocultar el contenido */
+.content-hidden {
+  display: none !important;
 }

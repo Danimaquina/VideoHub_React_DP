@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { FaHeart, FaUpload, FaList, FaSignOutAlt } from 'react-icons/fa';
 import './Sidebar.css';
@@ -7,6 +7,20 @@ const Sidebar = () => {
   const [showConfirmLogout, setShowConfirmLogout] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Efecto para controlar la visibilidad de las tarjetas
+  useEffect(() => {
+    const videosGrid = document.querySelector('.videos-grid');
+    const filtrosContainer = document.querySelector('.filtros-container');
+    
+    if (showConfirmLogout) {
+      videosGrid?.classList.add('content-hidden');
+      filtrosContainer?.classList.add('content-hidden');
+    } else {
+      videosGrid?.classList.remove('content-hidden');
+      filtrosContainer?.classList.remove('content-hidden');
+    }
+  }, [showConfirmLogout]);
 
   const handleLogoutClick = () => {
     setShowConfirmLogout(true);

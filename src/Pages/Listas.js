@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../firebase';
-import { collection, getDocs, query, where, addDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, getDocs, query, where, addDoc, doc, updateDoc, getDoc, arrayRemove } from 'firebase/firestore';
 import YouTubeCell from '../componentes/YouTubeCell';
 import InstagramCell from '../componentes/InstagramCell';
 
@@ -117,6 +117,27 @@ const Listas = () => {
     }
   };
 
+  const handleRemoveFromList = async (videoId, listaId) => {
+    try {
+      const listaRef = doc(db, 'listas', listaId);
+      await updateDoc(listaRef, {
+        contenido: arrayRemove(videoId)
+      });
+
+      // Actualizar el estado local de videos
+      setVideos(videos.filter(video => video.id !== videoId));
+
+      // Actualizar el contador de la lista en tiempo real
+      setListasConteo(prev => ({
+        ...prev,
+        [listaId]: (prev[listaId] || 1) - 1
+      }));
+
+    } catch (error) {
+      console.error('Error al eliminar el video de la lista:', error);
+    }
+  };
+
   const handleListaClick = async (listaId) => {
     if (listaId === listaSeleccionada) {
       // Si la lista ya está seleccionada, la cerramos
@@ -134,7 +155,9 @@ const Listas = () => {
       titulo: video.titulo,
       visto: video.visto,
       fechaCreacion: video.fechaCreacion,
-      onToggleWatched: () => handleToggleWatched(video.id)
+      onToggleWatched: () => handleToggleWatched(video.id),
+      showRemoveButton: true,
+      onRemove: () => handleRemoveFromList(video.id, listaSeleccionada)
     };
 
     return video.tipo === 'YouTube' ? (

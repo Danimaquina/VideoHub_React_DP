@@ -200,6 +200,11 @@ const styles = {
     padding: '20px',
     marginLeft: '250px',
     marginTop: '-50px',
+    '@media (max-width: 768px)': {
+      marginLeft: '0',
+      padding: '10px',
+      marginTop: '0'
+    }
   },
   formContainer: {
     backgroundColor: 'white',
@@ -208,6 +213,10 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
     width: '100%',
     maxWidth: '600px',
+    '@media (max-width: 768px)': {
+      padding: '15px',
+      width: '95%'
+    }
   },
   title: {
     textAlign: 'center',
@@ -223,6 +232,9 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: '8px',
+    '@media (max-width: 768px)': {
+      gap: '6px'
+    }
   },
   label: {
     fontSize: '14px',
@@ -235,6 +247,9 @@ const styles = {
     border: '2px solid #e2e8f0',
     fontSize: '14px',
     transition: 'border-color 0.2s',
+    '@media (max-width: 768px)': {
+      padding: '10px'
+    }
   },
   select: {
     padding: '12px',

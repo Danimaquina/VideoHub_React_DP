@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   position: fixed;
+  transition: transform 0.3s ease;
+  z-index: 1000;
 }
 
 .menuItem {
@@ -141,4 +143,37 @@
 /* Añadimos una nueva clase para ocultar el contenido */
 .content-hidden {
   display: none !important;
+}
+
+/* Añadir estas nuevas clases */
+.sidebar.collapsed {
+  transform: translateX(-250px);
+}
+
+.toggleButton {
+  display: none;
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  z-index: 1001;
+  background: white;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .toggleButton {
+    display: block;
+  }
+  
+  .sidebar {
+    transform: translateX(-250px);
+  }
+  
+  .sidebar.expanded {
+    transform: translateX(0);
+  }
 }

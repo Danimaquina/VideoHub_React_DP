@@ -74,3 +74,22 @@
     color: #a3d9a5;
   }
   
+  @media (max-width: 768px) {
+    .formContainer {
+      width: 95%;
+      padding: 15px;
+    }
+    
+    .logo {
+      font-size: 28px;
+    }
+    
+    .input {
+      height: 35px;
+    }
+    
+    .enterButton {
+      padding: 8px;
+    }
+  }
+  

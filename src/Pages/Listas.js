@@ -229,6 +229,10 @@ const styles = {
   container: {
     padding: '20px',
     marginLeft: '250px',
+    '@media (max-width: 768px)': {
+      marginLeft: '0',
+      padding: '10px'
+    }
   },
   createListContainer: {
     backgroundColor: 'white',
@@ -276,6 +280,10 @@ const styles = {
     gap: '10px',
     flexWrap: 'wrap',
     marginBottom: '20px',
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',
+      gap: '8px'
+    }
   },
   listaItem: {
     flex: '1 1 200px',
@@ -303,6 +311,18 @@ const styles = {
     gap: '20px',
     padding: '20px',
     maxWidth: '1400px',
+    '@media (max-width: 1400px)': {
+      gridTemplateColumns: 'repeat(3, 1fr)',
+    },
+    '@media (max-width: 1100px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '15px',
+    },
+    '@media (max-width: 768px)': {
+      gridTemplateColumns: '1fr',
+      padding: '10px',
+      gap: '10px',
+    }
   }
 };
 

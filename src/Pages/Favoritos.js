@@ -160,6 +160,10 @@ const styles = {
     backgroundColor: '#00910e',
     minHeight: '100vh',
     marginLeft: '250px',
+    '@media (max-width: 768px)': {
+      marginLeft: '0',
+      padding: '10px'
+    }
   },
   title: {
     fontSize: '24px',
@@ -178,6 +182,11 @@ const styles = {
     borderRadius: '0px',
     maxWidth: '1800px',
     margin: '0 auto',
+    '@media (max-width: 768px)': {
+      flexDirection: 'column',
+      gap: '10px',
+      padding: '10px',
+    }
   },
   filtroBoton: {
     padding: '10px 25px',
@@ -202,10 +211,13 @@ const styles = {
     },
     '@media (max-width: 1100px)': {
       gridTemplateColumns: 'repeat(2, 1fr)',
+      gap: '15px',
+      padding: '15px',
     },
     '@media (max-width: 768px)': {
       gridTemplateColumns: 'repeat(1, 1fr)',
-    },
+      padding: '10px',
+    }
   },
   videoCell: {
     backgroundColor: 'white',

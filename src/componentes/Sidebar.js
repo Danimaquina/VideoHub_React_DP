@@ -22,6 +22,14 @@ const Sidebar = () => {
     }
   }, [showConfirmLogout]);
 
+  useEffect(() => {
+    // Emitir evento cuando cambie el estado del modal
+    const event = new CustomEvent('modalStateChange', {
+      detail: { showModal: showConfirmLogout }
+    });
+    window.dispatchEvent(event);
+  }, [showConfirmLogout]);
+
   const handleLogoutClick = () => {
     setShowConfirmLogout(true);
   };

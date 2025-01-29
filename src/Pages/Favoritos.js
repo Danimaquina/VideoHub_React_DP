@@ -7,6 +7,7 @@ import InstagramCell from '../componentes/InstagramCell';
 const Favoritos = () => {
   const [videos, setVideos] = useState([]);
   const [filtro, setFiltro] = useState('todos'); // 'todos', 'vistos', 'noVistos'
+  const [showContent, setShowContent] = useState(true);
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -26,6 +27,19 @@ const Favoritos = () => {
     };
     
     fetchVideos();
+  }, []);
+
+  useEffect(() => {
+    // Suscribirse a los cambios del modal
+    const handleModalChange = (e) => {
+      setShowContent(!e.detail.showModal);
+    };
+
+    window.addEventListener('modalStateChange', handleModalChange);
+
+    return () => {
+      window.removeEventListener('modalStateChange', handleModalChange);
+    };
   }, []);
 
   const videosFiltrados = videos.filter(video => {
@@ -81,8 +95,13 @@ const Favoritos = () => {
   };
 
   return (
-    <div className="container">
-      <div className="filtros-container" style={styles.filtrosContainer}>
+    <div style={styles.container}>
+      <h2 style={styles.title}>Favoritos</h2>
+      
+      <div style={{
+        ...styles.filtrosContainer,
+        display: showContent ? 'flex' : 'none'
+      }}>
         <button 
           onClick={() => setFiltro('todos')}
           style={{
@@ -115,47 +134,95 @@ const Favoritos = () => {
         </button>
       </div>
 
-      <div className="videos-grid" style={styles.videosGrid}>
-        {videosFiltrados.map((video) => (
-          <div key={video.id}>
-            {renderVideoCell(video)}
+      <div style={{
+        ...styles.videosGrid,
+        display: showContent ? 'grid' : 'none'
+      }}>
+        {videosFiltrados.length > 0 ? (
+          videosFiltrados.map((video) => (
+            <div key={video.id} style={styles.videoCell}>
+              {renderVideoCell(video)}
+            </div>
+          ))
+        ) : (
+          <div style={styles.noVideos}>
+            No hay videos que mostrar en esta categoría
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 };
 
 const styles = {
+  container: {
+    padding: '20px 20px',
+    backgroundColor: '#00910e',
+    minHeight: '100vh',
+    marginLeft: '250px',
+  },
+  title: {
+    fontSize: '24px',
+    fontWeight: '600',
+    color: 'white',
+    marginBottom: '30px',
+    textAlign: 'center',
+  },
   filtrosContainer: {
     display: 'flex',
-    gap: '10px',
-    position: 'absolute',
-    top: '25px',
-    left: '725px',
-    right: '0',
-    zIndex: 1,
-    padding: '10px',
+    justifyContent: 'center',
+    gap: '20px',
+    padding: '20px',
+    marginBottom: '20px',
+    backgroundColor: '#00910e',
+    borderRadius: '0px',
+    maxWidth: '1800px',
+    margin: '0 auto',
   },
   filtroBoton: {
-    padding: '10px 20px',
-    border: 'none',
-    borderRadius: '5px',
-    backgroundColor: 'white',
-    color: 'black',
+    padding: '10px 25px',
+    border: '2px solid white',
+    borderRadius: '25px',
     cursor: 'pointer',
     transition: 'all 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-    border: '2px solid black',
+    fontWeight: '500',
+    fontSize: '14px',
 
+    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
   },
   videosGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '20px',
+    gap: '25px',
     padding: '20px',
-    maxWidth: '1400px',
-    margin: '100px 100px 350px 50px',
+    maxWidth: '1800px',
+    margin: '0 auto',
+    '@media (max-width: 1400px)': {
+      gridTemplateColumns: 'repeat(3, 1fr)',
+    },
+    '@media (max-width: 1100px)': {
+      gridTemplateColumns: 'repeat(2, 1fr)',
+    },
+    '@media (max-width: 768px)': {
+      gridTemplateColumns: 'repeat(1, 1fr)',
+    },
+  },
+  videoCell: {
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    transition: 'transform 0.3s ease',
+    height: '100%',
+  },
+  noVideos: {
+    gridColumn: '1 / -1',
+    textAlign: 'center',
+    padding: '50px',
+    fontSize: '18px',
+    color: '#666',
+    backgroundColor: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
   }
 };
 
